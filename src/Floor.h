@@ -1,12 +1,14 @@
 #pragma once
-#include "tinyxml2.h"
-
-using namespace tinyxml2;
+#include <vector>
+#include "Room.h"
 
 class Floor
 {
 private:
-	XMLDocument doc;
+	int nRooms = 0;
+	std::vector<Room> rooms;
+
+	Room& activeRoom;
 public:
-	Floor();
+	Floor(std::vector<Room>& rooms);
 };

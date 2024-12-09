@@ -13,7 +13,7 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp "src/Floor.h" "src/Kosela.h" "src/Tile.cpp" "src/Floor.h")
+add_executable(main src/main.cpp "src/Floor.h" "src/Floor.cpp" "src/Kosela.h" "src/Tile.cpp" "src/Room.h" "src/Room.cpp" "src/tinyxml2.h" "src/tinyxml2.cpp")
 target_link_libraries(main PRIVATE sfml-graphics)
 target_compile_features(main PRIVATE cxx_std_17)
 

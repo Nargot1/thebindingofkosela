@@ -1,6 +1,8 @@
 #include "Floor.h"
 
-Floor::Floor()
+Floor::Floor(std::vector<Room>& rooms)
+	:
+	rooms(rooms),
+	activeRoom(rooms.at(0))
 {
-	doc.LoadFile("Rooms.xml");
 }

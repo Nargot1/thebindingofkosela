@@ -1,12 +1,9 @@
 <?xml version="1.0" ?>
 <Game Floors="1">
-	<Floor Rooms="1">
-		
-		<Room width="10" height="3">
-			<Doors x="5" y="1"></Doors>
-
+	<Floor>
+		<Room width="10" height="3" id="0">
+			<Doors x="5" y="1" id="2"></Doors>
 			<Stone x="7" y="2"></Stone>
 		</Room>
-		
 	</Floor>
 </Game>
