@@ -3,6 +3,12 @@
 Floor::Floor(std::vector<Room>& rooms)
 	:
 	rooms(rooms),
-	activeRoom(rooms.at(0))
+	activeRoom(Room())
 {
+	activeRoom = rooms.at(0);
+}
+
+void Floor::Draw(sf::RenderWindow& window)
+{
+	activeRoom.Draw(window);
 }

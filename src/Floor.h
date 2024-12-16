@@ -11,4 +11,5 @@ private:
 	Room& activeRoom;
 public:
 	Floor(std::vector<Room>& rooms);
+	void Draw(sf::RenderWindow& window);
 };

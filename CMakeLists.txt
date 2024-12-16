@@ -17,6 +17,9 @@ add_executable(main src/main.cpp "src/Floor.h" "src/Floor.cpp" "src/Kosela.h" "s
 target_link_libraries(main PRIVATE sfml-graphics)
 target_compile_features(main PRIVATE cxx_std_17)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/Rooms.xml
+    ${CMAKE_BINARY_DIR} COPYONLY)
+
 if(WIN32)
     add_custom_command(
         TARGET main

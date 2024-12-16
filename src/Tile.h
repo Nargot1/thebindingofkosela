@@ -25,8 +25,9 @@ public:
     };
 
 public:
-    Tile(sf::Vector2f &pos_in, TileType type_in);
-    Tile(sf::Vector2f &pos_in, TileType type_in, WallDirection dir);
+    Tile() = default;
+    Tile(sf::Vector2i &pos_in, TileType type_in);
+    Tile(sf::Vector2i &pos_in, TileType type_in, WallDirection dir);
     void Draw(sf::RenderWindow &window) const;
 private:
     static constexpr int size = 16;
