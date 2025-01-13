@@ -78,7 +78,6 @@ int main()
     {
         for (auto event = sf::Event(); window.pollEvent(event);)
         {
-
             if (event.type == sf::Event::Closed)
             {
                 window.close();
@@ -86,9 +85,17 @@ int main()
         }
         window.clear();
 
-        kosela.update();
+        
+        
 
         Floor& currFloor = floors.at(0);
+
+        kosela.update();
+
+        currFloor.GetActiveRoom()->PlayerCollision(kosela);
+
+
+
         currFloor.Draw(window);
         kosela.draw(window,sf::RenderStates::Default);
 

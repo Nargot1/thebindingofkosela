@@ -11,3 +11,8 @@ void Floor::Draw(sf::RenderWindow& window)
 {
 	activeRoom->Draw(window);
 }
+
+Room* Floor::GetActiveRoom()
+{
+	return activeRoom;
+}

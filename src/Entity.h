@@ -3,20 +3,18 @@
 
 class Entity
 {
-private:
-    sf::FloatRect rect;
-    sf::Sprite sprite;
+protected:
     
+    sf::Sprite sprite;
 public:
     enum class entityType {
         player,
     };
 
-	sf::Vector2f velocity;
-	sf::Vector2f pos;
+    sf::FloatRect rect;
 
-    sf::FloatRect getRect();
+	sf::Vector2f velocity;
+
     sf::Sprite getSprite();
-    void setRect(sf::FloatRect);
     void setSprite(sf::Sprite);
 };
