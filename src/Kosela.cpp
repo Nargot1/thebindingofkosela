@@ -2,8 +2,15 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics.hpp>
 
+Kosela::Kosela()
+	:
+	rect({ 0,0,64,64 })
+{
+}
+
 void Kosela::update()
 {
+	bool keyPressed = false;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		velocity.y -= acceleration;
@@ -11,6 +18,12 @@ void Kosela::update()
 		{
 			velocity.y = -maxSpeed;
 		}
+		keyPressed = true;
+	}
+	else
+	{
+		velocity.y += acceleration;
+		keyPressed = true;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
@@ -20,6 +33,7 @@ void Kosela::update()
 		{
 			velocity.x = -maxSpeed;
 		}
+		keyPressed = true;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
@@ -29,6 +43,7 @@ void Kosela::update()
 		{
 			velocity.y = maxSpeed;
 		}
+		keyPressed = true;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -38,14 +53,23 @@ void Kosela::update()
 		{
 			velocity.x = maxSpeed;
 		}
+		keyPressed = true;
+	}
+	if (keyPressed == false)
+	{
+		velocity.x = 0;
+		velocity.y = 0;
 	}
 
 	pos += velocity;
 }
 
-void Kosela::draw(sf:RenderTarget& target)
+void Kosela::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::Sprite sp;
-	s.setPosition(pos.x, pos.y);
-	target.draw(s);
+	sp.setPosition(pos.x, pos.y);
+	sf::Texture texture;
+	texture.loadFromFile("../Kosela.png");
+	sp.setTexture(texture);
+	target.draw(sp);
 }

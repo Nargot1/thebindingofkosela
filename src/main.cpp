@@ -2,6 +2,7 @@
 #include "tinyxml2.h"
 #include "Floor.h"
 #include "Room.h"
+#include "Kosela.h"
 #include <vector>
 
 using namespace tinyxml2;
@@ -71,6 +72,7 @@ int main()
         currFloor = currFloor->NextSibling();
     }
 
+    Kosela kosela;
 
     while (window.isOpen())
     {
@@ -84,9 +86,11 @@ int main()
         }
         window.clear();
 
+        kosela.update();
 
         Floor& currFloor = floors.at(0);
         currFloor.Draw(window);
+        kosela.draw(window,sf::RenderStates::Default);
 
         window.display();
     }

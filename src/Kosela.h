@@ -6,11 +6,13 @@ class Kosela : public sf::Drawable, public Entity
 {
 public:
 
-	float maxSpeed = 1.0;
-	float acceleration = 0.1;
+	float maxSpeed = 3.0f;
+	float acceleration = 0.3f;
+
+	Kosela();
 
 	void update();
-	void draw(sf::RenderTarget&) const;
-
-	Kosela() {};
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+private:
+	sf::IntRect rect;
 };
