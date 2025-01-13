@@ -33,16 +33,19 @@ int main()
             std::vector<sf::Vector2<int>> stones;
 
             XMLElement* element = node->FirstChildElement();
-            int eWidth = element->FindAttribute("x")->IntValue();
-            int eHeight = element->FindAttribute("y")->IntValue();
-            if (element->Name() == "Doors")
             {
-                doors.push_back({ eWidth,eHeight });
-                doorsId.push_back(element->FindAttribute("id")->IntValue());
-            }
-            else if (element->Name() == "Stone")
-            {
-                stones.push_back({ eWidth,eHeight });
+                int eWidth = element->FindAttribute("x")->IntValue();
+                int eHeight = element->FindAttribute("y")->IntValue();
+                std::string name = element->Name();
+                if (name == "Doors")
+                {
+                    doors.push_back({ eWidth,eHeight });
+                    doorsId.push_back(element->FindAttribute("id")->IntValue());
+                }
+                else if (name == "Stone")
+                {
+                    stones.push_back({ eWidth,eHeight });
+                }
             }
 
             XMLElement* nextElement = element->NextSiblingElement();
@@ -50,12 +53,13 @@ int main()
             {
                 int eWidth = nextElement->FindAttribute("x")->IntValue();
                 int eHeight = nextElement->FindAttribute("y")->IntValue();
-                if (nextElement->Name() == "Doors")
+                std::string name = nextElement->Name();
+                if (name == "Doors")
                 {
                     doors.push_back({ eWidth,eHeight });
                     doorsId.push_back(element->FindAttribute("id")->IntValue());
                 }
-                else if (nextElement->Name() == "Stone")
+                else if (name == "Stone")
                 {
                     stones.push_back({ eWidth,eHeight });
                 }

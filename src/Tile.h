@@ -26,11 +26,11 @@ public:
 
 public:
     Tile() = default;
-    Tile(sf::Vector2i &pos_in, TileType type_in);
-    Tile(sf::Vector2i &pos_in, TileType type_in, WallDirection dir);
+    Tile(sf::Vector2i &pos_in, TileType type_in, int width, int height);
+    Tile(sf::Vector2i &pos_in, TileType type_in, int width, int height,WallDirection dir);
     void Draw(sf::RenderWindow &window) const;
 private:
-    static constexpr int size = 16;
+    static constexpr int size = 64;
     sf::FloatRect rect;
 
     TileType type = TileType::Empty;

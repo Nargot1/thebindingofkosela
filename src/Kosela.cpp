@@ -4,52 +4,16 @@
 
 void Kosela::update()
 {
-	up = false;
-	down = false;
-	left = false;
-	right = false;
-
-	pos += velocity;
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		up = true;
-	}
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    {
-        left = true;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-    {
-        down = true;
-    }
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		right = true;
-	}
-
-	if(up)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		velocity.y -= acceleration;
-		if(velocity.y < -maxSpeed)
+		if (velocity.y < -maxSpeed)
 		{
 			velocity.y = -maxSpeed;
 		}
 	}
 
-	if(down)
-	{
-		velocity.y += acceleration;
-		if (velocity.y > maxSpeed)
-		{
-			velocity.y = maxSpeed;
-		}
-	}
-
-	if(left)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		velocity.x -= acceleration;
 		if (velocity.x < -maxSpeed)
@@ -58,15 +22,26 @@ void Kosela::update()
 		}
 	}
 
-    if (right)
-    {
-        velocity.x += acceleration;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		velocity.y += acceleration;
+		if (velocity.y > maxSpeed)
+		{
+			velocity.y = maxSpeed;
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		velocity.x += acceleration;
 		if (velocity.x > maxSpeed)
 		{
 			velocity.x = maxSpeed;
 		}
-    }
-)
+	}
+
+	pos += velocity;
+}
 
 void Kosela::draw(sf:RenderTarget& target)
 {

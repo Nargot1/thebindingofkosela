@@ -1,14 +1,13 @@
 #include "Floor.h"
 
-Floor::Floor(std::vector<Room>& rooms)
+Floor::Floor(std::vector<Room> rooms_in)
 	:
-	rooms(rooms),
-	activeRoom(Room())
+	rooms(rooms_in)
 {
-	activeRoom = rooms.at(0);
+	activeRoom = &rooms.at(0);
 }
 
 void Floor::Draw(sf::RenderWindow& window)
 {
-	activeRoom.Draw(window);
+	activeRoom->Draw(window);
 }

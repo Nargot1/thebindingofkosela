@@ -8,8 +8,8 @@ private:
 	int nRooms = 0;
 	std::vector<Room> rooms;
 
-	Room& activeRoom;
+	Room* activeRoom;
 public:
-	Floor(std::vector<Room>& rooms);
+	Floor(std::vector<Room> rooms);
 	void Draw(sf::RenderWindow& window);
 };

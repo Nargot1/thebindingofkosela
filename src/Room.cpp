@@ -1,41 +1,55 @@
 #include "Room.h"
 
-Room::Room(int width, int height, std::vector<sf::Vector2<int>> stones, std::vector<sf::Vector2<int>> doors, std::vector<int> doorsId)
+Room::Room(int width_in, int height_in, std::vector<sf::Vector2<int>> stones, std::vector<sf::Vector2<int>> doors, std::vector<int> doorsId)
 	:
-	width(width),
-	height(height),
+	width(width_in+1),
+	height(height_in+1),
 	stones(stones),
 	doors(doors),
 	doorsID(doorsId)
 {
-	for (int y = 0; y < width; y++)
+	bool isStone = false;
+	bool isDoors = false;
+	for (int y = 0; y < height; y++)
 	{
-		for (int x = 0; x < height; x++)
+		for (int x = 0; x < width; x++)
 		{
 			for (int i = 0; i < stones.size(); i++)
 			{
 				if (stones.at(i) == sf::Vector2i(x, y))
 				{
-					tiles.push_back(Tile(sf::Vector2i(x, y), Tile::TileType::Blocked));
+					tiles.push_back(Tile(sf::Vector2i(x, y), Tile::TileType::Blocked, width, height));
+					isStone = true;
 					continue;
 				}
+			}
+			if (isStone)
+			{
+				isStone = false;
+				continue;
 			}
 			for (int i = 0; i < doors.size(); i++)
 			{
 				if (doors.at(i) == sf::Vector2i(x, y))
 				{
-					tiles.push_back(Tile(sf::Vector2i(x, y), Tile::TileType::Doors));
+					tiles.push_back(Tile(sf::Vector2i(x, y), Tile::TileType::Doors, width, height));
+					isDoors = true;
 					continue;
 				}
 			}
+			if (isDoors)
+			{
+				isDoors = false;
+				continue;
+			}
 			if (y == 0 || y == height-1 || x == 0 || x == width-1)
 			{
-				tiles.push_back(Tile(sf::Vector2i(x, y), Tile::TileType::Wall));
+				tiles.push_back(Tile(sf::Vector2i(x, y), Tile::TileType::Wall, width, height));
 				continue;
 			}
 			else
 			{
-				tiles.push_back(Tile(sf::Vector2i(x, y), Tile::TileType::Empty));
+				tiles.push_back(Tile(sf::Vector2i(x, y), Tile::TileType::Empty, width, height));
 				continue;
 			}
 		}
