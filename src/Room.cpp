@@ -69,45 +69,63 @@ void Room::PlayerCollision(Kosela& kosela)
 	for (int i = 0; i < tiles.size(); i++)
 	{
 		Tile& tile = tiles.at(i);
-		sf::FloatRect tileRect = tile.GetRect();
-		sf::FloatRect playerRect = kosela.rect;
 		switch (tile.GetType()) {
 			case Tile::TileType::Blocked:
-				if (tile.GetRect().intersects(playerRect))
+			case Tile::TileType::Wall:
+				CollisionCore(tile,kosela);
+				break;
+			case Tile::TileType::Doors:
+				if (CollisionCore(tile, kosela))
 				{
-					float smallest = tile.GetRect().left - (playerRect.left + playerRect.width);
-					Tile::WallDirection dir = Tile::WallDirection::Left;
-					if (((tileRect.left + tileRect.width) - playerRect.left) < smallest)
-					{
-						smallest = ((tileRect.left + tileRect.width) - playerRect.left);
-						dir = Tile::WallDirection::Right;
-					}
-					if (((tileRect.top + tileRect.height) - playerRect.top) < smallest)
-					{
-						smallest = ((tileRect.top + tileRect.height) - playerRect.top);
-						dir = Tile::WallDirection::Bottom;
-					}
-					if (tileRect.top - (playerRect.top + playerRect.height) < smallest)
-					{
-						smallest = tileRect.top - (playerRect.top + playerRect.height);
-						dir = Tile::WallDirection::Top;
-					}
-					switch (dir)
-					{
-					case Tile::WallDirection::Left:
-						 kosela.rect = sf::FloatRect(kosela.rect.left, kosela.rect.top, kosela.rect.width, kosela.rect.height);
-						break;
-					case Tile::WallDirection::Right:
-						break;
-					case Tile::WallDirection::Top:
-						break;
-					case Tile::WallDirection::Bottom:
-						break;
-					default:
-						break;
-					}
+					
 				}
 				break;
 		}
+	}
+}
+
+bool Room::CollisionCore(Tile& tile, Kosela& kosela)
+{
+
+	sf::FloatRect tileRect = tile.GetRect();
+	sf::FloatRect playerRect = kosela.rect;
+
+	if (tile.GetRect().intersects(playerRect))
+	{
+		float smallest = playerRect.left + playerRect.width - tileRect.left;
+		Tile::WallDirection dir = Tile::WallDirection::Left;
+		if (tileRect.left + tileRect.width - kosela.rect.left < smallest)
+		{
+			smallest = (tileRect.left + tileRect.width - kosela.rect.left);
+			dir = Tile::WallDirection::Right;
+		}
+		if (tileRect.top + tileRect.height - kosela.rect.top < smallest)
+		{
+			smallest = ((tileRect.top + tileRect.height) - playerRect.top);
+			dir = Tile::WallDirection::Bottom;
+		}
+		if (kosela.rect.top + kosela.rect.height - tileRect.top < smallest)
+		{
+			smallest = tileRect.top - (playerRect.top + playerRect.height);
+			dir = Tile::WallDirection::Top;
+		}
+		switch (dir)
+		{
+		case Tile::WallDirection::Left:
+			kosela.rect = sf::FloatRect(kosela.rect.left - (kosela.rect.left + kosela.rect.width - tileRect.left), kosela.rect.top, kosela.rect.width, kosela.rect.height);
+			break;
+		case Tile::WallDirection::Right:
+			kosela.rect = sf::FloatRect(kosela.rect.left + (tileRect.left + tileRect.width - kosela.rect.left), kosela.rect.top, kosela.rect.width, kosela.rect.height);
+			break;
+		case Tile::WallDirection::Top:
+			kosela.rect = sf::FloatRect(kosela.rect.left, kosela.rect.top - (kosela.rect.top + kosela.rect.height - tileRect.top), kosela.rect.width, kosela.rect.height);
+			break;
+		case Tile::WallDirection::Bottom:
+			kosela.rect = sf::FloatRect(kosela.rect.left, kosela.rect.top + (tileRect.top + tileRect.height - kosela.rect.top), kosela.rect.width, kosela.rect.height);
+			break;
+		default:
+			break;
+		}
+		return true;
 	}
 }

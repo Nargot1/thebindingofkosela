@@ -4,7 +4,7 @@
 
 Kosela::Kosela()
 {
-	rect = sf::FloatRect(500, 500, 64, 64);
+	rect = sf::FloatRect(800, 500, 52, 64);
 }
 
 void Kosela::update()
@@ -36,7 +36,7 @@ void Kosela::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	sf::Sprite sp;
 	sp.setPosition(rect.left, rect.top);
 	sf::Texture texture;
-	texture.loadFromFile("../Kosela.png");
+	texture.loadFromFile("../Kosela.png",sf::IntRect(0,0,rect.width,rect.height));
 	sp.setTexture(texture);
 	target.draw(sp);
 }

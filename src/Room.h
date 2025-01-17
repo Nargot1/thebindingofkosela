@@ -11,6 +11,9 @@ public:
 	void Draw(sf::RenderWindow& window) const;
 	void PlayerCollision(Kosela& kosela);
 private:
+
+	bool CollisionCore(Tile& tile, Kosela& kosela);
+
 	int width;
 	int height;
 
@@ -20,7 +23,7 @@ private:
 
 	std::vector<Tile> tiles;
 
-	class enum Direction
+	enum class Direction
 	{
 		Up,
 		Down,
