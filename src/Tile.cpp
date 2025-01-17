@@ -10,13 +10,13 @@ Tile::Tile(sf::Vector2i &pos, TileType type_in,int width_in,int height_in)
 	//int height = 540 - (height_in * size)/2;
 	rectShape.setPosition(rect.getPosition());
 	if (type == TileType::Wall)
-		rectShape.setFillColor(sf::Color::Green);
+		rectShape.setFillColor(sf::Color(50,100,255,255));
 	else if(type == TileType::Blocked)
-		rectShape.setFillColor(sf::Color::Blue);
+		rectShape.setFillColor(sf::Color(100,100,125,255));
 	else if(type == TileType::Doors)
-		rectShape.setFillColor(sf::Color::Red);
+		rectShape.setFillColor(sf::Color(200,125,100,255));
 	else
-		rectShape.setFillColor(sf::Color::Yellow);
+		rectShape.setFillColor(sf::Color(255,255,233,255));
 	
 }
 

@@ -3,6 +3,7 @@
 #include "Floor.h"
 #include "Room.h"
 #include "Kosela.h"
+#include "Dummy.h"
 #include <vector>
 
 using namespace tinyxml2;
@@ -74,6 +75,8 @@ int main()
 
     Kosela kosela;
 
+    Dummy dummy;
+
     while (window.isOpen())
     {
         for (auto event = sf::Event(); window.pollEvent(event);)
@@ -97,6 +100,7 @@ int main()
 
 
         currFloor.Draw(window);
+        dummy.draw(window, sf::RenderStates::Default);
         kosela.draw(window,sf::RenderStates::Default);
 
         window.display();
