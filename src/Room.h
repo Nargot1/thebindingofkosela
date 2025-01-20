@@ -9,7 +9,7 @@ public:
 	Room() = default;
 	Room(int width,int height, std::vector<sf::Vector2<int>> stones_in,std::vector<sf::Vector2<int>> doors_in, std::vector<int> doorsId);
 	void Draw(sf::RenderWindow& window) const;
-	void PlayerCollision(Kosela& kosela);
+	int PlayerCollision(Kosela& kosela);
 private:
 
 	bool CollisionCore(Tile& tile, Kosela& kosela);

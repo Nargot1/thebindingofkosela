@@ -12,6 +12,14 @@ void Floor::Draw(sf::RenderWindow& window)
 	activeRoom->Draw(window);
 }
 
+void Floor::ActiveRoomPlayerCollision(Kosela& kosela)
+{
+	if (activeRoom->PlayerCollision(kosela))
+	{
+		activeRoom = &rooms.at(1);
+	}
+}
+
 Room* Floor::GetActiveRoom()
 {
 	return activeRoom;
