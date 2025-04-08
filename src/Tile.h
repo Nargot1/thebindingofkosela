@@ -35,8 +35,6 @@ private:
     static constexpr int size = 64;
     sf::FloatRect rect;
 
-
-
     TileType type = TileType::Empty;
     WallDirection wallDirection = WallDirection::None;
 

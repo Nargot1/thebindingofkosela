@@ -12,6 +12,5 @@ private:
 public:
 	Floor(std::vector<Room> rooms);
 	void Draw(sf::RenderWindow& window);
-	void ActiveRoomPlayerCollision(Kosela& kosela);
 	Room* GetActiveRoom();
 };

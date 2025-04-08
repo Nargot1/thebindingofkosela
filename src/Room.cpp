@@ -64,7 +64,7 @@ void Room::Draw(sf::RenderWindow& window) const
 	}
 }
 
-int Room::PlayerCollision(Kosela& kosela)
+void Room::PlayerCollision(Kosela& kosela)
 {
 	for (int i = 0; i < tiles.size(); i++)
 	{
@@ -77,12 +77,11 @@ int Room::PlayerCollision(Kosela& kosela)
 			case Tile::TileType::Doors:
 				if (CollisionCore(tile, kosela))
 				{
-					return 1;
+					
 				}
 				break;
 		}
 	}
-	return -1;
 }
 
 bool Room::CollisionCore(Tile& tile, Kosela& kosela)

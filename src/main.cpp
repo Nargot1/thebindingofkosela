@@ -21,43 +21,53 @@ int main()
     doc.LoadFile(file);
     XMLNode* root = doc.FirstChildElement("Game");
     XMLNode* currFloor = root->FirstChildElement();
-    for (int i = 0; i < root->ChildElementCount()-1; i++)
+    for (int i = 0; i < root->ChildElementCount(); i++)
     {
         std::vector<Room> rooms;
-        XMLElement* node = currFloor->FirstChildElement();
         for (int i = 0; i < root->ChildElementCount(); i++)
         {
+            XMLElement* node = currFloor->FirstChildElement();
+            int width = node->FindAttribute("width")->IntValue();
+            int height = node->FindAttribute("height")->IntValue();
+
             std::vector<sf::Vector2<int>> doors;
             std::vector<int> doorsId;
             std::vector<sf::Vector2<int>> stones;
 
-            
-            int width = node->FindAttribute("width")->IntValue();
-            int height = node->FindAttribute("height")->IntValue();
+            XMLElement* element = node->FirstChildElement();
+            {
+                int eWidth = element->FindAttribute("x")->IntValue();
+                int eHeight = element->FindAttribute("y")->IntValue();
+                std::string name = element->Name();
+                if (name == "Doors")
+                {
+                    doors.push_back({ eWidth,eHeight });
+                    doorsId.push_back(element->FindAttribute("id")->IntValue());
+                }
+                else if (name == "Stone")
+                {
+                    stones.push_back({ eWidth,eHeight });
+                }
+            }
 
-            XMLElement* nextElement = node->FirstChildElement();
+            XMLElement* nextElement = element->NextSiblingElement();
             for (int i = 0; i < node->ChildElementCount() - 1; i++)
             {
-                std::vector<sf::Vector2<int>> doors;
-                std::vector<int> doorsId;
-                std::vector<sf::Vector2<int>> stones;
-
                 int eWidth = nextElement->FindAttribute("x")->IntValue();
                 int eHeight = nextElement->FindAttribute("y")->IntValue();
                 std::string name = nextElement->Name();
                 if (name == "Doors")
                 {
                     doors.push_back({ eWidth,eHeight });
-                    doorsId.push_back(node->FindAttribute("id")->IntValue());
+                    doorsId.push_back(element->FindAttribute("id")->IntValue());
                 }
                 else if (name == "Stone")
                 {
                     stones.push_back({ eWidth,eHeight });
                 }
                 nextElement = nextElement->NextSiblingElement();
-                rooms.push_back(Room(width, height, stones, doors, doorsId));
             }
-            node = node->NextSiblingElement();
+            rooms.push_back(Room(width, height, stones, doors, doorsId));
         }
         floors.push_back(Floor(rooms));
         currFloor = currFloor->NextSibling();
@@ -77,17 +87,19 @@ int main()
             }
         }
         window.clear();
+
+        
         
 
-        Floor* currFloor = &floors.at(0);
+        Floor& currFloor = floors.at(0);
 
         kosela.update();
 
-        currFloor->ActiveRoomPlayerCollision(kosela);
+        currFloor.GetActiveRoom()->PlayerCollision(kosela);
 
 
 
-        currFloor->Draw(window);
+        currFloor.Draw(window);
         dummy.draw(window, sf::RenderStates::Default);
         kosela.draw(window,sf::RenderStates::Default);
 
