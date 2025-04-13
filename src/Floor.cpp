@@ -1,10 +1,12 @@
 #include "Floor.h"
+#include "Dummy.h"
 
-Floor::Floor(std::vector<Room> rooms_in)
+Floor::Floor(std::vector<Room*> rooms_in)
 	:
 	rooms(rooms_in)
 {
-	activeRoom = &rooms.at(0);
+	activeRoom = rooms.at(0);
+	ncurrRoom = 0;
 }
 
 void Floor::Draw(sf::RenderWindow& window)
@@ -12,12 +14,22 @@ void Floor::Draw(sf::RenderWindow& window)
 	activeRoom->Draw(window);
 }
 
-void Floor::ActiveRoomPlayerCollision(Kosela& kosela)
+bool Floor::ActiveRoomPlayerCollision(Kosela& kosela)
 {
-	if (activeRoom->PlayerCollision(kosela))
+	int roomId = activeRoom->PlayerCollision(kosela);
+	if (roomId != -2)
 	{
-		activeRoom = &rooms.at(1);
+		if (roomId == -1)
+		{
+			return true;
+		}
+		else
+		{
+			activeRoom = rooms.at(roomId);
+			kosela.SetPosition(activeRoom->GetSpawn());
+		}
 	}
+	return false;
 }
 
 Room* Floor::GetActiveRoom()

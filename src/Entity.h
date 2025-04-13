@@ -11,8 +11,6 @@ public:
         player,
     };
 
-    sf::FloatRect rect;
-
 	sf::Vector2f velocity;
 
     sf::Sprite getSprite();

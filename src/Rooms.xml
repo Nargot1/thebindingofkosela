@@ -1,15 +1,48 @@
-<?xml version="1.0" ?>
-<Game>
-	<Floor>
-		<Room id="0" width="14" height="10">
-			<Doors x="5" y="0" id="2"></Doors>
-			<Stone x="7" y="2"></Stone>
-		</Room>
-	</Floor>
-	<Floor>
-		<Room id="0" width="10" height="3">
-			<Doors x="5" y="0" id="2"></Doors>
-			<Stone x="7" y="2"></Stone>
-		</Room>
-	</Floor>
+<?xml version="1.0" ?>  
+<Game>  
+<Floor>  
+<Room id="0" width="14" height="10">  
+	<Spawn x="5" y="5"></Spawn>  
+	<Dummy x="3" y="7"></Dummy>  
+	<Dummy x="6" y="8"></Dummy>  
+	<Dummy x="2" y="3"></Dummy>  
+	<Doors x="5" y="0" id="1"></Doors>  
+	<Stone x="7" y="2"></Stone>  
+</Room>  
+<Room id="1" width="14" height="10">  
+	<Spawn x="5" y="5"></Spawn>  
+	<Dummy x="2" y="7"></Dummy>  
+	<Dummy x="4" y="4"></Dummy>  
+	<Dummy x="8" y="6"></Dummy>  
+	<Doors x="5" y="0" id="-1"></Doors>  
+	<Stone x="7" y="2"></Stone>  
+</Room>  
+</Floor>  
+<Floor>  
+<Room id="0" width="10" height="8">  
+	<Spawn x="5" y="2"></Spawn>  
+	<Dummy x="3" y="5"></Dummy>  
+	<Dummy x="6" y="6"></Dummy>  
+	<Doors x="7" y="0" id="1"></Doors>  
+	<Stone x="7" y="2"></Stone>  
+</Room>  
+<Room id="1" width="12" height="8">  
+	<Spawn x="3" y="3"></Spawn>  
+	<Dummy x="4" y="6"></Dummy>  
+	<Dummy x="5" y="5"></Dummy>  
+	<Dummy x="7" y="7"></Dummy>  
+	<Doors x="6" y="0" id="-1"></Doors>  
+	<Stone x="8" y="4"></Stone>  
+</Room>  
+</Floor>  
+<Floor>  
+<Room id="0" width="15" height="11">  
+	<Spawn x="7" y="2"></Spawn>  
+	<Dummy x="3" y="4"></Dummy>  
+	<Dummy x="5" y="6"></Dummy>  
+	<Dummy x="8" y="8"></Dummy>  
+	<Doors x="10" y="0" id="0"></Doors>  
+	<Stone x="9" y="3"></Stone>  
+</Room>  
+</Floor>  
 </Game>
