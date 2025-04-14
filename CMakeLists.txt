@@ -30,6 +30,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/Dummy.png
     ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/bombaanimacja.png
     ${CMAKE_BINARY_DIR} COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/logo.png
+    ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/arial.ttf
     ${CMAKE_BINARY_DIR} COPYONLY)
 if(WIN32)

@@ -149,7 +149,7 @@ void Room::Update(Kosela& kosela)
 		sf::FloatRect bombRect = it->GetRect();
 		if (bombRect.intersects(kosela.GetRect()))
 		{
-			kosela.TakeDamage(10);
+			//kosela.TakeDamage(10);
 		}
 
 		if (it->ShouldBeRemoved())
@@ -195,6 +195,14 @@ int Room::PlayerCollision(Kosela& kosela)
 		case Tile::TileType::Doors:
 			if (CollisionCore(tile, kosela))
 			{
+				bool isAlive = false;
+				for (auto e:enemies)
+				{
+					if (e->IsAlive())
+					{
+						return -2;
+					}
+				}
 				return doorsID[ndoors++];
 			}
 			break;
