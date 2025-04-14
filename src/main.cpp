@@ -5,53 +5,40 @@
 #include "Kosela.h"
 #include "Dummy.h"
 #include <vector>
+#include <string>
+#include <iostream>
 
 using namespace tinyxml2;
 
 int main()
 {
-    auto window = sf::RenderWindow({1920u, 1080u}, "The Binding of Kosela");
+    auto window = sf::RenderWindow({ 1920u, 1080u }, "The Binding of Kosela");
     window.setFramerateLimit(60);
 
-    std::vector<Floor> floors;
-    
+    std::vector<Floor*> floors;
+
     FILE* file = fopen("../Rooms.xml", "rb");
 
     XMLDocument doc;
     doc.LoadFile(file);
     XMLNode* root = doc.FirstChildElement("Game");
-    XMLNode* currFloor = root->FirstChildElement();
+    XMLNode* currFloorNode = root->FirstChildElement();
     for (int i = 0; i < root->ChildElementCount(); i++)
     {
-        std::vector<Room> rooms;
-        for (int i = 0; i < root->ChildElementCount(); i++)
+        std::vector<Room*> rooms;
+        for (XMLElement* node = currFloorNode->FirstChildElement(); node != currFloorNode->LastChildElement()->NextSiblingElement(); node = node->NextSiblingElement())
         {
-            XMLElement* node = currFloor->FirstChildElement();
-            int width = node->FindAttribute("width")->IntValue();
-            int height = node->FindAttribute("height")->IntValue();
-
             std::vector<sf::Vector2<int>> doors;
             std::vector<int> doorsId;
             std::vector<sf::Vector2<int>> stones;
+            sf::Vector2i spawn{ 0,0 };
+            std::vector<Enemy*> enemies;
 
-            XMLElement* element = node->FirstChildElement();
-            {
-                int eWidth = element->FindAttribute("x")->IntValue();
-                int eHeight = element->FindAttribute("y")->IntValue();
-                std::string name = element->Name();
-                if (name == "Doors")
-                {
-                    doors.push_back({ eWidth,eHeight });
-                    doorsId.push_back(element->FindAttribute("id")->IntValue());
-                }
-                else if (name == "Stone")
-                {
-                    stones.push_back({ eWidth,eHeight });
-                }
-            }
+            int width = node->FindAttribute("width")->IntValue();
+            int height = node->FindAttribute("height")->IntValue();
 
-            XMLElement* nextElement = element->NextSiblingElement();
-            for (int i = 0; i < node->ChildElementCount() - 1; i++)
+            XMLElement* nextElement = node->FirstChildElement();
+            for (int i = 0; i < node->ChildElementCount(); i++)
             {
                 int eWidth = nextElement->FindAttribute("x")->IntValue();
                 int eHeight = nextElement->FindAttribute("y")->IntValue();
@@ -59,23 +46,42 @@ int main()
                 if (name == "Doors")
                 {
                     doors.push_back({ eWidth,eHeight });
-                    doorsId.push_back(element->FindAttribute("id")->IntValue());
+                    doorsId.push_back(nextElement->FindAttribute("id")->IntValue());
                 }
                 else if (name == "Stone")
                 {
                     stones.push_back({ eWidth,eHeight });
                 }
+                else if (name == "Spawn")
+                {
+                    spawn = { eWidth,eHeight };
+                }
+                else if (name == "Dummy")
+                {
+                    enemies.push_back(new Dummy(sf::Vector2i{ eWidth,eHeight }));
+                }
+
                 nextElement = nextElement->NextSiblingElement();
             }
-            rooms.push_back(Room(width, height, stones, doors, doorsId));
+            rooms.push_back(new Room(width, height, stones, doors, doorsId, spawn, enemies));
         }
-        floors.push_back(Floor(rooms));
-        currFloor = currFloor->NextSibling();
+        floors.push_back(new Floor(rooms));
+        currFloorNode = currFloorNode->NextSibling();
     }
 
-    Kosela kosela;
+    Floor* currFloor = floors.at(0);
+    int ncurrFloor = 1;
+    int nFloors = floors.size();
+    Kosela kosela(currFloor->GetActiveRoom()->GetSpawn());
 
-    Dummy dummy;
+    sf::Font font;
+    font.loadFromFile("../arial.ttf");
+
+    sf::Text hpText;
+    hpText.setFont(font);
+    hpText.setCharacterSize(30);
+    hpText.setFillColor(sf::Color::White);
+    hpText.setPosition(20, 20);
 
     while (window.isOpen())
     {
@@ -88,21 +94,50 @@ int main()
         }
         window.clear();
 
-        
-        
+        if (kosela.IsAlive()) {
+            Room* activeRoom = currFloor->GetActiveRoom();
+            kosela.update(activeRoom);
 
-        Floor& currFloor = floors.at(0);
+            currFloor->Update(kosela);
 
-        kosela.update();
+            if (currFloor->ActiveRoomPlayerCollision(kosela))
+            {
+                if (ncurrFloor < nFloors)
+                {
+                    ncurrFloor++;
+                    currFloor = floors.at(ncurrFloor - 1);
+                }
+            }
+        }
 
-        currFloor.GetActiveRoom()->PlayerCollision(kosela);
+        currFloor->Draw(window);
+        kosela.draw(window, sf::RenderStates::Default);
 
+        hpText.setString("HP: " + std::to_string(kosela.hp) + "/100");
+        window.draw(hpText);
 
+        if (!kosela.IsAlive()) {
+            sf::Text gameOverText;
+            gameOverText.setFont(font);
+            gameOverText.setCharacterSize(72);
+            gameOverText.setFillColor(sf::Color::Red);
+            gameOverText.setString("GAME OVER");
 
-        currFloor.Draw(window);
-        dummy.draw(window, sf::RenderStates::Default);
-        kosela.draw(window,sf::RenderStates::Default);
+            sf::FloatRect textRect = gameOverText.getLocalBounds();
+            gameOverText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+            gameOverText.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+
+            window.draw(gameOverText);
+        }
 
         window.display();
     }
+
+    for (auto& floor : floors) {
+        delete floor;
+    }
+    floors.clear();
+
+    return 0;
 }
+
